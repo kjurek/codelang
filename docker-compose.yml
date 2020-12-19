@@ -1,8 +1,15 @@
 version: "3.8"
 services:
 
-  frontend:
-    build:
-      context: ./frontend
-    ports:
-      - "8080:80"
+    frontend:
+        build:
+            context: ./frontend
+        ports:
+            - "8080:80"
+
+    backend:
+        build:
+            context: ./backend
+        ports:
+            - "8081:80"
+
