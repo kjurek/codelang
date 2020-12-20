@@ -6,10 +6,23 @@ services:
             context: ./frontend
         ports:
             - "8080:80"
+        depends_on:
+            - backend
 
     backend:
         build:
             context: ./backend
+            dockerfile: Dockerfile
+        env_file:
+            - ./backend/settings.env
         ports:
             - "8081:80"
 
+    backend_tests:
+        build:
+            context: ./backend
+            dockerfile: DockerfileTests
+        env_file:
+            - ./backend/settings.env
+        volumes:
+            - "./backend:/app"

@@ -1,0 +1,7 @@
+FROM python
+RUN pip install --upgrade pip
+COPY requirements.txt /tmp
+RUN pip install -r /tmp/requirements.txt
+RUN pip install pytest pip-tools flake8 bandit ipdb
+WORKDIR /app
+CMD pytest -s -vv
