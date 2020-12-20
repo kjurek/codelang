@@ -1,10 +1,12 @@
 from base64 import b64encode
 from fastapi import FastAPI
-from utils import CreateRequestHmac
 from urllib.parse import urljoin
 
+
+from src.utils import CreateRequestHmac
+from src import settings
+
 import requests
-import settings
 import logging
 
 logging.basicConfig(level=logging.DEBUG)

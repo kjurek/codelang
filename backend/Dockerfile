@@ -9,7 +9,8 @@ RUN pip install --upgrade pip
 COPY requirements.txt /tmp
 RUN pip install -r /tmp/requirements.txt
 
-COPY src/ /app
-COPY start.sh /app
+COPY src /app/src
+COPY start_ycmd.sh /app
+COPY start_backend.sh /app
 WORKDIR /app
-CMD ./start.sh
+CMD ./start_ycmd.sh && ./start_backend.sh

@@ -1,7 +1,16 @@
 FROM python
+
 RUN pip install --upgrade pip
+
+# setup ycmd
+RUN apt-get update && apt-get install -y build-essential cmake
+RUN git clone --recurse-submodules https://github.com/ycm-core/ycmd.git /ycmd
+RUN cd /ycmd && pip install -r requirements.txt && python build.py --clangd-completer
+
 COPY requirements.txt /tmp
 RUN pip install -r /tmp/requirements.txt
 RUN pip install pytest pip-tools flake8 bandit ipdb
+
 WORKDIR /app
-CMD pytest -s -vv
+
+CMD ./start_ycmd.sh && pytest -s -vv
