@@ -10,6 +10,7 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 app = FastAPI()
 
+
 @app.get("/healthy")
 async def get_healthy():
     hmac = b64encode(CreateRequestHmac(b"GET", b"/healthy", b"", settings.HMAC_SECRET.encode()))
