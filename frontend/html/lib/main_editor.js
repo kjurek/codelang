@@ -31,16 +31,35 @@
                 const start = currentWord.trim() ? token.start : token.end;
                 const end = cursor.ch;
                 const line = cursor.line;
-                // TODO: call ycmd or clangd server for completions
-                const completions = [
-                    { text: 'const'},
-                    { text: 'constexpr'},
-                    { text: 'extern'},
-                ];
+
+                request_data = {
+                    "file_name": "code.cpp",
+                    "file_type": "cpp",
+                    "line_num": line + 1,
+                    "column_num": end + 1,
+                    "contents": editor.getValue()
+                };
+
+                response = $.ajax({
+                    type: "POST",
+                    url: "http://localhost:8081/completions",
+                    dataType: "json",
+                    async: false,
+                    data: JSON.stringify(request_data)
+                });
+
+                const completion_start = response.responseJSON["completion_start_column"];
+                const completion_offset = end + 1 - completion_start;
+                const completions = $.map(response.responseJSON["completions"], function (x) {
+                    return {
+                        displayText: x["insertion_text"],
+                        text: x["insertion_text"].substring(completion_offset)
+                    };
+                });
+
                 return {
                     list: completions,
-                    from: CodeMirror.Pos(line, start),
-                    to: CodeMirror.Pos(line, end)
+                    from: CodeMirror.Pos(line, completion_start - 1 + completion_offset)
                 }
             }, { completeSingle: false });
         }

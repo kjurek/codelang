@@ -1,5 +1,6 @@
 from base64 import b64encode
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from urllib.parse import urljoin
 
 
@@ -13,6 +14,13 @@ import os
 
 logging.basicConfig(level=logging.DEBUG)
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins="*",
+    allow_credentials=True,
+    allow_methods="*",
+    allow_headers="*"
+)
 
 
 def create_headers(method, path, data=""):
@@ -41,7 +49,7 @@ async def completions(completions_request: schema.CompletionsRequest):
     headers_config = create_headers("POST", "/load_extra_conf_file", json.dumps(data_config))
     url_config = urljoin(settings.YCMD_URL, "load_extra_conf_file")
     response_config = requests.post(url_config, json=data_config, headers=headers_config)
-    logging.info(response_config)
+    logging.info(response_config.json())
 
     data_event = {
         "line_num": completions_request.line_num,
@@ -57,8 +65,8 @@ async def completions(completions_request: schema.CompletionsRequest):
     }
     headers_event = create_headers("POST", "/event_notification", json.dumps(data_event))
     url_event = urljoin(settings.YCMD_URL, "event_notification")
-    response_event = requests.post(url_event, json=data_event, headers=headers_event).json()
-    logging.info(response_event)
+    response_event = requests.post(url_event, json=data_event, headers=headers_event)
+    logging.info(response_event.json())
 
     data = {
         "line_num": completions_request.line_num,
