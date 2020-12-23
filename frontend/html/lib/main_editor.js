@@ -52,7 +52,7 @@
                 const completion_offset = end + 1 - completion_start;
                 const completions = $.map(response.responseJSON["completions"], function (x) {
                     return {
-                        displayText: x["insertion_text"],
+                        displayText: x["kind"] == "FUNCTION" ? x["menu_text"] : x["insertion_text"],
                         text: x["insertion_text"].substring(completion_offset)
                     };
                 });
