@@ -53,7 +53,8 @@
                 const completions = $.map(response.responseJSON["completions"], function (x) {
                     return {
                         displayText: x["kind"] == "FUNCTION" ? x["menu_text"] : x["insertion_text"],
-                        text: x["insertion_text"].substring(completion_offset)
+                        text: x["insertion_text"].substring(completion_offset),
+                        signature: x["extra_menu_info"] + " " + x["menu_text"]
                     };
                 });
 
@@ -62,6 +63,14 @@
                     from: CodeMirror.Pos(line, completion_start - 1 + completion_offset)
                 }
             }, { completeSingle: false });
+            var completion = editor.state.completionActive.data;
+            CodeMirror.on(completion, "select", function(completion, element) {
+                $("#hint-details").text(completion.signature);
+            });
+
+            CodeMirror.on(completion, "pick", function (completion, element) {
+                $("#hint-details").text(completion.signature);
+            });
         }
     });
 })()
