@@ -26,9 +26,6 @@
         'Ctrl-Space': function() {
             CodeMirror.showHint(editor, function () {
                 const cursor = editor.getCursor();
-                const token = editor.getTokenAt(cursor);
-                const currentWord = token.string;
-                const start = currentWord.trim() ? token.start : token.end;
                 const end = cursor.ch;
                 const line = cursor.line;
 
