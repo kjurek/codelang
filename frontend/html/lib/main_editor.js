@@ -1,3 +1,9 @@
+function makeList(str) {
+    var splitStr = str.trim().split("\n");
+    var li = splitStr.map(e => $("<li>").text(e));
+    return li;
+}
+
 (function () {
     CodeMirror.commands.save = function(){ alert("Saving"); };
     var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
@@ -49,9 +55,9 @@
                 const completion_offset = end + 1 - completion_start;
                 const completions = $.map(response.responseJSON["completions"], function (x) {
                     return {
-                        displayText: x["kind"] == "FUNCTION" ? x["menu_text"] : x["insertion_text"],
+                        displayText: x["kind"] == x["menu_text"],
                         text: x["insertion_text"].substring(completion_offset),
-                        signature: x["extra_menu_info"] + " " + x["menu_text"]
+                        signature: x["detailed_info"]
                     };
                 });
 
@@ -62,11 +68,17 @@
             }, { completeSingle: false });
             var completion = editor.state.completionActive.data;
             CodeMirror.on(completion, "select", function(completion, element) {
-                $("#hint-details").text(completion.signature);
+                $("#hint-details").empty();
+                if (completion.signature) {
+                    $("#hint-details").append(makeList(completion.signature));
+                }
             });
 
-            CodeMirror.on(completion, "pick", function (completion, element) {
-                $("#hint-details").text(completion.signature);
+            CodeMirror.on(completion, "pick", function (completion) {
+                $("#hint-details").empty();
+                if (completion.signature) {
+                    $("#hint-details").append(makeList(completion.signature));
+                }
             });
         }
     });

@@ -1,52 +1,40 @@
 <html>
-    <title>CodeMirror: Vim bindings demo</title>
-    <meta charset="utf-8"/>
-    <link rel="stylesheet" href="css/codemirror.css">
-    <link rel="stylesheet" href="css/dialog.css">
-    <link rel="stylesheet" href="css/midnight.css">
-    <link rel="stylesheet" href="css/solarized.css">
-    <link rel="stylesheet" href="css/show-hint.css">
-    <script src="lib/jquery-3.5.1.min.js"></script>
-    <script src="lib/codemirror.js"></script>
-    <script src="lib/show-hint.js"></script>
-    <script src="lib/searchcursor.js"></script>
-    <script src="lib/dialog.js"></script>
-    <script src="lib/clike.js"></script>
-    <script src="lib/matchbrackets.js"></script>
-    <script src="lib/vim.js"></script>
-    <style>
-        .CodeMirror {border-top: 1px solid #eee; border-bottom: 1px solid #eee;}
-    </style>
-    <div id=nav>
-        <div style="font-size: 13px; overflow: auto;"><span id="hint-details"></span></div>
-        <form>
-<textarea id="code" name="code">
+<title>CodeMirror: Vim bindings demo</title>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="css/codemirror.css">
+<link rel="stylesheet" href="css/dialog.css">
+<link rel="stylesheet" href="css/midnight.css">
+<link rel="stylesheet" href="css/solarized.css">
+<link rel="stylesheet" href="css/show-hint.css">
+<script src="lib/jquery-3.5.1.min.js"></script>
+<script src="lib/codemirror.js"></script>
+<script src="lib/show-hint.js"></script>
+<script src="lib/searchcursor.js"></script>
+<script src="lib/dialog.js"></script>
+<script src="lib/clike.js"></script>
+<script src="lib/matchbrackets.js"></script>
+<script src="lib/vim.js"></script>
+<style>
+    .CodeMirror {
+        border-top: 1px solid #eee;
+        border-bottom: 1px solid #eee;
+    }
+</style>
+<div id=nav>
+    <form>
+        <textarea id="code" name="code">
 #include <iostream>
 
 int main() {
   std::cout << "Hello world" << std::endl;
 }
 </textarea>
-        </form>
-        <div style="font-size: 13px; width: 300px; height: 30px;">Key buffer: <span id="command-display"></span></div>
-        <div style="font-size: 13px; width: 300px; height: 30px;">Vim mode: <span id="vim-mode"></span></div>
-        <script src="lib/main_editor.js"></script>
-        <p><strong>Features</strong></p>
-        <ul>
-            <li>All common motions and operators, including text objects</li>
-            <li>Operator motion orthogonality</li>
-            <li>Visual mode - characterwise, linewise, blockwise</li>
-            <li>Full macro support (q, @)</li>
-            <li>Incremental highlighted search (/, ?, #, *, g#, g*)</li>
-            <li>Search/replace with confirm (:substitute, :%s)</li>
-            <li>Search history</li>
-            <li>Jump lists (Ctrl-o, Ctrl-i)</li>
-            <li>Key/command mapping with API (:map, :nmap, :vmap)</li>
-            <li>Sort (:sort)</li>
-            <li>Marks (`, ')</li>
-            <li>:global</li>
-            <li>Insert mode behaves identical to base CodeMirror</li>
-            <li>Cross-buffer yank/paste</li>
-        </ul>
+    </form>
+    <div style="font-size: 13px; width: 300px; height: 30px;">Key buffer: <span id="command-display"></span></div>
+    <div style="font-size: 13px; width: 300px; height: 30px;">Vim mode: <span id="vim-mode"></span></div>
+    <div style="font-size: 13px; overflow: auto;">Hint details:<br />
+        <ul id="hint-details"></ul>
     </div>
+    <script src="lib/main_editor.js"></script>
+</div>
 </html>
