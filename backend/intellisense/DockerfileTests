@@ -1,0 +1,7 @@
+FROM codelang_backend_intellisense
+
+RUN pip install pytest pip-tools flake8 bandit ipdb
+
+WORKDIR /app
+
+CMD ./start_ycmd.sh && pytest -s -vv

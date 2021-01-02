@@ -51,7 +51,7 @@ def send_get_healthy():
 
 def send_load_config():
     data_config = {
-        "filepath": os.path.join(settings.CODE_DIR, ".ycm_extra_conf.py")
+        "filepath": os.path.join(".ycm_extra_conf.py")
     }
     headers_config = create_headers("POST", "/load_extra_conf_file", json.dumps(data_config))
     url_config = urljoin(settings.YCMD_URL, "load_extra_conf_file")
@@ -59,13 +59,12 @@ def send_load_config():
 
 
 def send_completions(completions_request: schema.CompletionsRequest):
-    filepath = os.path.join(settings.CODE_DIR, completions_request.file_name)
     data = {
         "line_num": completions_request.line_num,
         "column_num": completions_request.column_num,
-        "filepath": filepath,
+        "filepath": completions_request.file_name,
         "file_data": {
-            filepath: {
+            completions_request.file_name: {
                 "filetypes": [completions_request.file_type],
                 "contents": completions_request.contents
             }

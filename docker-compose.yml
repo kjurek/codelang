@@ -7,22 +7,38 @@ services:
         ports:
             - "8080:80"
         depends_on:
-            - backend
+            - backend_intellisense
 
-    backend:
+    backend_intellisense:
         build:
-            context: ./backend
+            context: ./backend/intellisense
             dockerfile: Dockerfile
         env_file:
-            - ./backend/settings.env
+            - ./backend/intellisense/settings.env
         ports:
             - "8081:80"
 
-    backend_tests:
+    backend_executor:
         build:
-            context: ./backend
+            context: ./backend/executor
+            dockerfile: Dockerfile
+        env_file:
+            - ./backend/executor/settings.env
+
+    backend_intellisense_tests:
+        build:
+            context: ./backend/intellisense
             dockerfile: DockerfileTests
         env_file:
-            - ./backend/settings.env
+            - ./backend/intellisense/settings.env
         volumes:
-            - "./backend:/app"
+            - "./backend/intellisense:/app"
+
+    backend_executor_tests:
+        build:
+            context: ./backend/executor
+            dockerfile: DockerfileTests
+        env_file:
+            - ./backend/executor/settings.env
+        volumes:
+            - "./backend/executor:/app"
