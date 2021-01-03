@@ -63,7 +63,7 @@ def test_execute_success(test_client):
     assert response.json() == {
         "stdout": "arg1\narg2\n",
         "stderr": "",
-        "returncode": 0
+        "returncode": 0,
     }
 
 
@@ -88,7 +88,7 @@ def test_execute_failure(test_client):
     assert response.json() == {
         "stdout": "",
         "stderr": "Failure message\n",
-        "returncode": 123
+        "returncode": 123,
     }
 
 
