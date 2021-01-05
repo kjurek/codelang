@@ -30,8 +30,12 @@ int main() {
 }
 </textarea>
     </form>
+    <button id="build-button">Build</button>
+    <button id="execute-button">Execute</button>
     <div style="font-size: 13px; width: 300px; height: 30px;">Key buffer: <span id="command-display"></span></div>
     <div style="font-size: 13px; width: 300px; height: 30px;">Vim mode: <span id="vim-mode"></span></div>
+    <div style="font-size: 13px; overflow: auto;">Compilation details: <br/><ul id="compilation-details"></ul></div>
+    <div style="font-size: 13px; overflow: auto;">Execution details: <br/><ul id="execution-details"></ul></div>
     <div style="font-size: 13px; overflow: auto;">Hint details:<br />
         <ul id="hint-details"></ul>
     </div>

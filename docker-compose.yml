@@ -8,6 +8,7 @@ services:
             - "8080:80"
         depends_on:
             - backend_intellisense
+            - backend_executor
 
     backend_intellisense:
         build:
