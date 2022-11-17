@@ -1,7 +1,9 @@
 FROM codelang_backend_executor
 
-RUN pip install pytest pip-tools flake8 bandit ipdb
+RUN . /home/executor/venv/bin/activate && pip install pytest pip-tools flake8 bandit ipdb
 
-WORKDIR /app
+COPY tests /tmp/tests
 
-CMD pytest -s -vv
+WORKDIR /tmp/tests
+
+CMD . /home/executor/venv/bin/activate && pytest -s -vv

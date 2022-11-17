@@ -23,7 +23,7 @@ function sendCompletionsRequest(line_num, column_num, contents) {
     return $.ajax({
         type: "POST",
         url: "http://localhost:8081/completions",
-        dataType: "json",
+        contentType: "application/json",
         async: false,
         data: JSON.stringify(request_data)
     });
@@ -39,7 +39,7 @@ function sendCompileRequest(session_id, contents, flags) {
     return $.ajax({
         type: "POST",
         url: "http://localhost:8082/compile",
-        dataType: "json",
+        contentType: "application/json",
         async: false,
         data: JSON.stringify(request_data),
     });
@@ -54,7 +54,7 @@ function sendExecuteRequest(session_id) {
     return $.ajax({
         type: "POST",
         url: "http://localhost:8082/execute",
-        dataType: "json",
+        contentType: "application/json",
         async: false,
         data: JSON.stringify(request_data),
     });

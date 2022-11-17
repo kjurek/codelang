@@ -1,5 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.exceptions import RequestValidationError
+from fastapi.responses import PlainTextResponse
 import logging
 
 from src.handlers import (
@@ -20,6 +22,11 @@ app.add_middleware(
     allow_headers="*"
 )
 
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request, exc):
+    logging.info(request)
+    logging.info(exc)
+    return PlainTextResponse(str(exc), status_code=400)
 
 @app.get("/healthy")
 async def get_healthy():
@@ -29,4 +36,6 @@ async def get_healthy():
 @app.post("/completions")
 async def completions(completions_request: CompletionsRequest):
     logging.info(send_load_config())
-    return send_completions(completions_request)
+    completions = send_completions(completions_request)
+    logging.info(completions)
+    return completions

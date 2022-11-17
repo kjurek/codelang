@@ -17,30 +17,11 @@ def compile_executable(source_path: str, flags: list, executable_path: str):
     return output
 
 
-def link_sandbox(executable_path: str):
-    command = ["patchelf", "--add-needed", settings.SANDBOX_LIB_PATH, executable_path]
-    output = subprocess.run(command, capture_output=True)  # nosec
-    logging.info(f"link_sandbox output: {output}")
-    return output
-
-
 def run_executable(executable_path: str, arguments: list):
-    command = ["runuser", "-u", settings.CODE_USER, "--", executable_path] + arguments
+    command = [executable_path] + arguments
     output = subprocess.run(command, capture_output=True)  # nosec
-    logging.info(f"run_executable output: {output}")
+    logging.info(f"run_executable {command} output: {output}")
     return output
-
-
-def filter_sandbox_messages(stderr: str):
-    messages = '\n'.join([
-        'initializing seccomp with default action (kill process)',
-        'adding read to the process seccomp filter (allow)',
-        'adding open to the process seccomp filter (allow)',
-        'adding write to the process seccomp filter (allow)',
-        'adding exit_group to the process seccomp filter (allow)',
-        'adding fstat to the process seccomp filter (allow)\n',
-    ])
-    return stderr.replace(messages, '')
 
 
 def compile(request: schema.CompileRequest):
@@ -58,9 +39,6 @@ def compile(request: schema.CompileRequest):
         os.remove(executable_path)
 
     compile_output = compile_executable(source_path, request.flags, executable_path)
-    if os.path.exists(executable_path):
-        link_sandbox(executable_path)
-
     return schema.CompileResponse(stdout=compile_output.stdout,
                                   stderr=compile_output.stderr,
                                   returncode=compile_output.returncode)
@@ -77,5 +55,5 @@ def execute(request: schema.ExecuteRequest):
 
     output = run_executable(executable_path, request.arguments)
     return schema.ExecuteResponse(stdout=output.stdout,
-                                  stderr=filter_sandbox_messages(output.stderr.decode()),
+                                  stderr=output.stderr,
                                   returncode=output.returncode)

@@ -28,15 +28,12 @@ services:
         ports:
             - "8082:80"
 
-
     backend_intellisense_tests:
         build:
             context: ./backend/intellisense
             dockerfile: DockerfileTests
         env_file:
             - ./backend/intellisense/settings.env
-        volumes:
-            - "./backend/intellisense:/app"
 
     backend_executor_tests:
         build:
@@ -44,5 +41,3 @@ services:
             dockerfile: DockerfileTests
         env_file:
             - ./backend/executor/settings.env
-        volumes:
-            - "./backend/executor:/app"
