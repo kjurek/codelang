@@ -18,6 +18,8 @@ services:
             - ./backend/intellisense/settings.env
         ports:
             - "8081:80"
+        depends_on:
+            - backend_intellisense_tests
 
     backend_executor:
         build:
@@ -27,6 +29,8 @@ services:
             - ./backend/executor/settings.env
         ports:
             - "8082:80"
+        depends_on:
+            - backend_executor_tests
 
     backend_intellisense_tests:
         build:

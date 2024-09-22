@@ -1,4 +1,4 @@
-FROM codelang_backend_intellisense
+FROM codelang-backend_intellisense
 
 RUN . /home/intellisense/venv/bin/activate && pip install pytest pip-tools flake8 bandit ipdb
 

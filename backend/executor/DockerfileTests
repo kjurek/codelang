@@ -1,4 +1,4 @@
-FROM codelang_backend_executor
+FROM codelang-backend_executor
 
 RUN . /home/executor/venv/bin/activate && pip install pytest pip-tools flake8 bandit ipdb
 
